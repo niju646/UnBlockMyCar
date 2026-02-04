@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:unblockmycar/features/home/widgets/floating_action2.dart';
+import 'package:unblockmycar/shared/bottom_sheet.dart';
 import 'package:unblockmycar/shared/common_banner.dart';
 import 'package:unblockmycar/shared/common_icon.dart';
 import 'package:unblockmycar/shared/common_text.dart';
@@ -47,6 +48,17 @@ class _ProfileScreenState extends State<ProfileScreen>
   void dispose() {
     _animationController.dispose();
     super.dispose();
+  }
+
+  void showBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (_) {
+        return const CommonBottomSheet();
+      },
+    );
   }
 
   @override
@@ -162,25 +174,30 @@ class _ProfileScreenState extends State<ProfileScreen>
                           SizedBox(height: 20),
 
                           //vehicle card
-                          VehicleCard(
-                            title: "KL-07_AB-1234",
-                            subtitle: "Hyundai Creta",
-                            widget: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
+                          GestureDetector(
+                            onTap: () {
+                              showBottomSheet(context);
+                            },
+                            child: VehicleCard(
+                              title: "KL-07_AB-1234",
+                              subtitle: "Hyundai Creta",
+                              widget: Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
 
-                              children: [
-                                StatusChip(
-                                  text: "Expiring",
-                                  bgColor: Colors.amber[100]!,
-                                  textColor: Colors.amber[800]!,
-                                ),
-                                const SizedBox(height: 6),
-                                StatusChip(
-                                  text: "1 Challan",
-                                  bgColor: Colors.red[100]!,
-                                  textColor: Colors.red[700]!,
-                                ),
-                              ],
+                                children: [
+                                  StatusChip(
+                                    text: "Expiring",
+                                    bgColor: Colors.amber[100]!,
+                                    textColor: Colors.amber[800]!,
+                                  ),
+                                  const SizedBox(height: 6),
+                                  StatusChip(
+                                    text: "1 Challan",
+                                    bgColor: Colors.red[100]!,
+                                    textColor: Colors.red[700]!,
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
 

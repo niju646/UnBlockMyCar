@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:unblockmycar/features/home/car_detail_screen.dart';
-import 'package:unblockmycar/features/home/history_screen.dart';
-import 'package:unblockmycar/features/home/home_screen.dart';
-import 'package:unblockmycar/features/home/notification_screen.dart';
-import 'package:unblockmycar/features/home/notify_screen.dart';
-import 'package:unblockmycar/features/home/profile_screen.dart';
+import 'package:unblockmycar/features/home/data/presentation/call_detail_screen.dart';
+import 'package:unblockmycar/features/home/data/presentation/car_detail_screen.dart';
+import 'package:unblockmycar/features/home/data/presentation/history_screen.dart';
+import 'package:unblockmycar/features/home/data/presentation/home_screen.dart';
+import 'package:unblockmycar/features/home/data/presentation/notification_screen.dart';
+import 'package:unblockmycar/features/home/data/presentation/notify_screen.dart';
+import 'package:unblockmycar/features/home/data/presentation/profile_screen.dart';
 import 'package:unblockmycar/features/home/widgets/scanner_screen.dart';
 import 'package:unblockmycar/routes/router_constants.dart';
 import 'package:unblockmycar/shared/splash_screen.dart';
@@ -56,28 +57,32 @@ final List<GoRoute> commonRoutes = [
   GoRoute(
     path: '/carDetailScreen',
     name: RouterConstants.carDetailScreen,
-    pageBuilder: (context, state) => CustomTransitionPage(
-      key: state.pageKey,
-      child: const CarDetailScreen(),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        return FadeTransition(opacity: animation, child: child);
-      },
-    ),
-    builder: (context, state) => CarDetailScreen(),
+    pageBuilder: (context, state) {
+      final vehicleNUmber = state.extra as String;
+      return CustomTransitionPage(
+        key: state.pageKey,
+        child: CarDetailScreen(vehicleNumber: vehicleNUmber),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(opacity: animation, child: child);
+        },
+      );
+    },
   ),
 
   //notify screen
   GoRoute(
     path: '/notifyScreen',
     name: RouterConstants.notifyScreen,
-    pageBuilder: (context, state) => CustomTransitionPage(
-      key: state.pageKey,
-      child: const NotifyScreen(),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        return FadeTransition(opacity: animation, child: child);
-      },
-    ),
-    builder: (context, state) => NotifyScreen(),
+    pageBuilder: (context, state) {
+      final vehicleNumber = state.extra as String;
+      return CustomTransitionPage(
+        key: state.pageKey,
+        child: NotifyScreen(vehicleNumber: vehicleNumber),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(opacity: animation, child: child);
+        },
+      );
+    },
   ),
 
   //profile screen
@@ -120,5 +125,19 @@ final List<GoRoute> commonRoutes = [
       },
     ),
     builder: (context, state) => HistoryScreen(),
+  ),
+
+  //calling screen
+  GoRoute(
+    path: '/callingScreen',
+    name: RouterConstants.callingScreen,
+    pageBuilder: (context, state) => CustomTransitionPage(
+      key: state.pageKey,
+      child: const CallScreen(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return FadeTransition(opacity: animation, child: child);
+      },
+    ),
+    builder: (context, state) => CallScreen(),
   ),
 ];

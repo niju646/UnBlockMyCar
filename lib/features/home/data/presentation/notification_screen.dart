@@ -74,10 +74,11 @@ class NotificationScreen extends StatelessWidget {
               return Padding(
                 padding: EdgeInsets.only(left: 16, right: 16, top: 10),
                 child: CommonCard(
+                  isCrown: false,
                   icon: Icons.shield_outlined,
                   title: "Insurance Expiring Soon",
                   subtitle:
-                      "Your vehicle insurance will expire soon on 2026-02-12 ",
+                      "Your vehicle insurance will\n expire soon on 2026-02-12 ",
                   lines: 2,
                 ),
               );

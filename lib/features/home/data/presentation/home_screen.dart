@@ -102,7 +102,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     const SizedBox(height: 20),
 
                     CommonText(
-                      name: "Find and notify vehicle owner anonymously",
+                      name:
+                          "Find and notify vehicle owner without sharing personal details",
                       textcolor: Colors.white70,
                       fontsize: 13,
                     ),
@@ -127,6 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         SizedBox(height: 5),
                         CommonCard(
+                          isCrown: false,
                           iconColor: Color.fromARGB(255, 15, 86, 119),
                           icon: Icons.search,
                           title: "Enter Number",
@@ -135,6 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         SizedBox(height: 10),
                         CommonCard(
+                          isCrown: false,
                           iconColor: Color.fromARGB(255, 15, 86, 119),
                           icon: CupertinoIcons.car_detailed,
                           title: "Find Vehicle",
@@ -143,20 +146,21 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         SizedBox(height: 10),
                         CommonCard(
+                          isCrown: false,
                           onTap: () {
                             log("notify tapped");
                           },
                           iconColor: Color.fromARGB(255, 15, 86, 119),
                           icon: Icons.notifications_none,
                           title: "Notify Owner",
-                          subtitle: "Send anonymous alert",
+                          subtitle: "Send a privacy-protected alert",
                           isIcon: false,
                         ),
                         SizedBox(height: 10),
                         CommonBanner(
                           icon: Icons.shield_outlined,
                           title:
-                              "100% Anonymous\nYour identity will never shared with vehicle owners",
+                              "Your contact details are never shared with vehicle owner",
                         ),
                       ],
                     ),
@@ -167,7 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
 
           Positioned(
-            top: 165,
+            top: 175,
             right: 20,
             left: 20,
             child: Container(
@@ -227,7 +231,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             if (!context.mounted) return;
                             CustomSnackBar.showSuccess(
                               context,
-                              message: "NUmber added",
+                              message: "Number added",
                             );
                           }
                         },
@@ -248,7 +252,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     icon: Icons.search,
                     color: const Color.fromARGB(255, 15, 86, 119),
                     onPressed: () {
-                      context.pushNamed(RouterConstants.carDetailScreen);
+                      final vehicleNumber = _searchController.text.trim();
+                      if (vehicleNumber.isEmpty) {
+                        CustomSnackBar.showError(
+                          context,
+                          message: "Vehicle Number is Empty",
+                        );
+                      } else {
+                        context.pushNamed(
+                          RouterConstants.carDetailScreen,
+                          extra: vehicleNumber,
+                        );
+                      }
                     },
                     child: CommonText(
                       name: "Get Vehicle Details",

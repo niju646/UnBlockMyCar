@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:unblockmycar/core/utils/providers/get_providers.dart';
 import 'package:unblockmycar/routes/app_router.dart';
 
 void main() {
@@ -10,10 +12,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: "UnBlockMyCar",
-      debugShowCheckedModeBanner: false,
-      routerConfig: appRouter,
+    return MultiProvider(
+      providers: getProviders(),
+      child: MaterialApp.router(
+        title: "UnBlockMyCar",
+        debugShowCheckedModeBanner: false,
+        routerConfig: appRouter,
+      ),
     );
   }
 }

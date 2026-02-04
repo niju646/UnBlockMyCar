@@ -41,26 +41,33 @@ class _ScannerScreenState extends State<ScannerScreen> {
     await textRecognizer.close();
 
     for (final block in recognizedText.blocks) {
+      String combinedText = '';
+
       for (final line in block.lines) {
-        String text = line.text
-            .toUpperCase()
-            .replaceAll(RegExp(r'[^A-Z0-9]'), '')
-            .replaceAll('O', '0');
+        combinedText += '${line.text} ';
+      }
 
-        log("OCR LINE: ${line.text}");
-        log("NORMALIZED: $text");
+      String normalized = combinedText
+          .toUpperCase()
+          .replaceAll(RegExp(r'[^A-Z0-9]'), '')
+          .replaceAll('O', '0');
 
-        final regExp = RegExp(r'^[A-Z]{2}[0-9]{2}[A-Z]{1,2}[0-9]{4}$');
+      log("BLOCK OCR: $combinedText");
+      log("NORMALIZED BLOCK: $normalized");
 
-        if (regExp.hasMatch(text)) {
-          setState(() {
-            detectedPlate = text;
-            isProcessing = false;
-          });
-          if (!mounted) return;
-          CustomSnackBar.showSuccess(context, message: "Number plate detected");
-          return;
-        }
+      final regExp = RegExp(r'[A-Z]{2}[0-9]{2}[A-Z]{1,2}[0-9]{4}');
+
+      final match = regExp.firstMatch(normalized);
+
+      if (match != null) {
+        setState(() {
+          detectedPlate = match.group(0);
+          isProcessing = false;
+        });
+
+        if (!mounted) return;
+        CustomSnackBar.showSuccess(context, message: "Number plate detected");
+        return;
       }
     }
 

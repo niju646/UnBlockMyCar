@@ -9,7 +9,8 @@ import 'package:unblockmycar/shared/common_list_tile.dart';
 import 'package:unblockmycar/shared/common_text.dart';
 
 class CarDetailScreen extends StatefulWidget {
-  const CarDetailScreen({super.key});
+  final String vehicleNumber;
+  const CarDetailScreen({super.key, required this.vehicleNumber});
 
   @override
   State<CarDetailScreen> createState() => _CarDetailScreenState();
@@ -113,7 +114,7 @@ class _CarDetailScreenState extends State<CarDetailScreen>
                     opacity: _fadeAnimation,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: FloatingCard(),
+                      child: FloatingCard(vehicleNumber: widget.vehicleNumber),
                     ),
                   ),
                 ),
@@ -134,6 +135,7 @@ class _CarDetailScreenState extends State<CarDetailScreen>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const CommonCard(
+                            isCrown: false,
                             iconColor: Color.fromARGB(255, 15, 86, 119),
                             icon: CupertinoIcons.person,
                             title: "Gopinath",
@@ -143,17 +145,22 @@ class _CarDetailScreenState extends State<CarDetailScreen>
                           ),
                           const SizedBox(height: 20),
                           CommonButton(
+                            prefixIcon: true,
                             icon: Icons.notifications_none,
                             color: const Color.fromARGB(255, 15, 86, 119),
                             onPressed: () {
-                              context.pushNamed(RouterConstants.notifyScreen);
+                              final vehicleNumber = widget.vehicleNumber;
+                              context.pushNamed(
+                                RouterConstants.notifyScreen,
+                                extra: vehicleNumber,
+                              );
                             },
                             child: const CommonText(
-                              name: "Notify Owner",
+                              name: "Contact Vehicle Owner",
                               textcolor: Colors.white,
                             ),
                           ),
-                          
+
                           const SizedBox(height: 40),
                         ],
                       ),
@@ -171,7 +178,8 @@ class _CarDetailScreenState extends State<CarDetailScreen>
 
 //floating card
 class FloatingCard extends StatelessWidget {
-  const FloatingCard({super.key});
+  final String? vehicleNumber;
+  const FloatingCard({super.key, this.vehicleNumber});
 
   @override
   Widget build(BuildContext context) {
@@ -208,7 +216,7 @@ class FloatingCard extends StatelessWidget {
                   ),
                   child: Center(
                     child: CommonText(
-                      name: "KL-07-AB-1234",
+                      name: vehicleNumber ?? "KL-07-AB-1234",
                       font: FontWeight.bold,
                       fontsize: 25,
                     ),

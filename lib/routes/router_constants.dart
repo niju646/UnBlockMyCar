@@ -7,4 +7,5 @@ class RouterConstants {
   static const String profileScreen = "profileScreen";
   static const String notificationScreen = "notificationScreen";
   static const String historyScreen = "historyScreen";
+  static const String callingScreen = "callingScreen";
 }

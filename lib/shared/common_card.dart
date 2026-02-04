@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:unblockmycar/shared/common_icon.dart';
 import 'package:unblockmycar/shared/common_text.dart';
 
@@ -11,6 +12,7 @@ class CommonCard extends StatelessWidget {
   final VoidCallback? onTap;
   final bool isIcon;
   final int? lines;
+  final bool isCrown;
 
   const CommonCard({
     super.key,
@@ -22,6 +24,7 @@ class CommonCard extends StatelessWidget {
     this.isIcon = true,
     this.icon2,
     this.lines,
+    this.isCrown = true,
   });
 
   @override
@@ -60,27 +63,39 @@ class CommonCard extends StatelessWidget {
 
             // title & subtitle
             Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: Row(
                 children: [
-                  CommonText(name: title, font: FontWeight.bold),
-                  const SizedBox(height: 4),
-                  Wrap(
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    spacing: 5,
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if (icon2 != null)
-                        Icon(icon2, size: 15, color: Colors.grey),
+                      CommonText(name: title, font: FontWeight.bold),
+                      const SizedBox(height: 4),
+                      Wrap(
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        spacing: 5,
+                        children: [
+                          if (icon2 != null)
+                            Icon(icon2, size: 15, color: Colors.grey),
 
-                      CommonText(
-                        name: subtitle,
-                        textcolor: Colors.grey,
-                        fontsize: 12,
-                        lines: lines,
+                          CommonText(
+                            name: subtitle,
+                            textcolor: Colors.grey,
+                            fontsize: 12,
+                            lines: lines,
+                          ),
+                        ],
                       ),
                     ],
                   ),
+                  Spacer(),
+                  (isCrown)
+                      ? FaIcon(
+                          FontAwesomeIcons.crown,
+                          color: Colors.amber,
+                          size: 28,
+                        )
+                      : SizedBox.shrink(),
                 ],
               ),
             ),
